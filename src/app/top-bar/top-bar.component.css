@@ -1,4 +1,120 @@
+.active {
+    color: #f9f9f9;
+    font-weight: bolder;
+    vertical-align: bottom;
+}
 
+a {
+    color: #f9f9f9;
+    text-decoration-line: no-underline;
+}
+
+a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.header-toolbar {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+}
+
+.notif:after {
+    position: absolute;
+    margin-top:10px;
+    top: 0;
+    width: 0;
+    height: 0;
+    content: '';
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid  #f9f9f9;
+}
+
+.notif{
+    margin-top:20px;
+    background-color: #f9f9f9;
+    min-width: 200px  !important;
+    width: 300px  !important;
+    max-width: 300px  !important;
+    
+}
+
+.notif-content, .notif-content-time{
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    font-size: 11px !important;
+}
+
+.notif-list{
+    
+    width: 100%  !important;
+    overflow:hidden;
+}
+
+.notif-content-header{
+    font-size: 12px !important;
+}
+
+.notification-time{
+    font-size: 10px;
+    float: right;
+}
+
+.notif-list-item{
+    height:initial!important;
+    margin: 0 2px;
+    cursor: pointer;
+    width: 100%  !important;
+    /* margin-bottom: 5px; */
+    /* background-color: gray; */
+}
+
+.notif-list-item:hover{
+    background-color: #e5efef;
+}
+
+.notif-content-actions{
+    font-size: 12px !important;
+}
+
+.notif-icon-deny, .notif-icon-approve{
+    font-size: 20px !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+
+.notif-icon-deny:hover, .notif-icon-approve:hover{
+    font-size: 24px !important;
+    height: 24px !important;
+    width: 24px !important;
+}
+
+.notif-icon-deny:hover{
+    color:rgb(59, 9, 9)
+}
+.notif-icon-approve:hover{
+    color:#3B5998
+}
+
+.see-all{
+    text-align: center;
+    padding:5px;
+    cursor: pointer;
+}
+
+.see-all:hover{
+    color:blue;
+    text-decoration: underline;
+}
+
+.profile-pic{
+    width:30px; 
+    height:30px;
+    border-radius:50%;
+    margin: 70% 20%;
+}
 
 /*
 Copyright Google LLC. All Rights Reserved.

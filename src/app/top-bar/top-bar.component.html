@@ -1,11 +1,134 @@
-<a [routerLink]="['/']">
-  <h1>{{client}} Ignite Manager</h1>
-</a>
+<nav class="navbar bg-white col-lg-12 col-12 p-0 navbar-inverse d-flex header-toolbar flex-row" color="primary">
+	<div class="bg-white text-center navbar-brand-wrapper text-primary">
+		<img style="width:20px; height:50px" src="http://ignitemanager.com/production/image/ignite%20logo.png" />
+		<span>&nbsp;&nbsp;
+            <b>Ignite Manager
+            </b>
+        </span>
+	</div>
+	<mat-toolbar *ngIf="hiddenNavButtons" color="primary"
+		class="role  navbar-menu-wrapper fixed-header mat-elevation-z10">
+		<button mat-icon-button [routerLink]="['dashboard']" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Dashboard') != -1" matTooltip="Dashboard" matTooltipPosition="below">
+            <mat-icon *ngIf="(isLoggedIn|async)">dashboard</mat-icon>
+        </button>
+		<button mat-icon-button [matMenuTriggerFor]="reportMenu" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Reports') != -1" matTooltip="Reports" matTooltipPosition="below">
+            <mat-icon>print</mat-icon>
+        </button>
 
-<a [routerLink]="['/cart']" class="button fancy-button"><i class="material-icons">shopping_cart</i>Checkout</a>
+		<!--button mat-icon-button [matMenuTriggerFor]="eformMenu" *ngIf="(isLoggedIn|async)" matTooltip="Eforms" matTooltipPosition="below">
+            <mat-icon>description</mat-icon>
+        </button-->
 
-<!-- 
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
--->
+		<button mat-icon-button *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Notifications') != -1" [matMenuTriggerFor]="notif" matTooltip="Notifications"
+                matTooltipPosition="below">
+            <mat-icon [matBadge]="notifCount" *ngIf="notifCount != null" matBadgeOverlap="true" matBadgeColor="warn">notifications</mat-icon>
+            <mat-icon *ngIf="notifCount == null">notifications</mat-icon>
+        </button>
+
+		<button mat-icon-button [routerLink]="['calendar']" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Calendar') != -1" (click)="isNavButtonHidden()" matTooltip="Calendar" matTooltipPosition="below">
+            <mat-icon>event</mat-icon>
+        </button>
+
+		<button mat-icon-button [routerLink]="['customers']" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Customers') != -1" matTooltip="Customers" matTooltipPosition="below">
+            <mat-icon>people</mat-icon>
+        </button>
+
+		<button mat-icon-button [routerLink]="['public-feed']" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Public Feed') != -1" matTooltip="Public Feed" matTooltipPosition="below">
+            <mat-icon *ngIf="(isLoggedIn|async)" [matBadge]="" [matBadgeOverlap]="true" matBadgeColor="warn">public</mat-icon>
+        </button>
+
+		<button mat-icon-button [routerLink]="['files']" *ngIf="(isLoggedIn|async)" [hidden]="hiddenNavButtons.indexOf('Files') != -1"  matTooltip="Files" matTooltipPosition="below">
+            <mat-icon>folder</mat-icon>
+        </button>
+
+		<button mat-icon-button [routerLink]="['admin']" *ngIf="(isAdmin)" matTooltip="Admin Functions" matTooltipPosition="below">
+            <mat-icon>settings</mat-icon>
+        </button>
+
+		<span class="spacer"></span>
+		<button mat-button [matMenuTriggerFor]="menu" *ngIf="(isLoggedIn|async)">
+            <ng-container *ngIf="periodDefinition">{{periodDefinition.description}}
+                <mat-icon>event</mat-icon>
+            </ng-container>
+        </button>
+
+	</mat-toolbar>
+
+	<!--
+                                    <div class="navbar-menu-wrapper d-flex align-items-center">
+                                        &lt;!&ndash;<button class="navbar-toggler navbar-toggler hidden-md-down align-self-center mr-3" type="button"
+                                        data-toggle="minimize">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    &ndash;&gt;
+                                    <ul class="nav navbar-nav align-baseline">
+                                        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                            <a [routerLink]="['dashboard']" *ngIf="(isLoggedIn|async)">Dashboard</a>
+                                        </li>
+                                        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a
+                                            [routerLink]="['report/']" *ngIf="(isLoggedIn|async)">Reports</a></li>
+                                            <li routerLinkActive="active"><a [routerLink]="['/chat']" *ngIf="(isLoggedIn|async)">Chat</a></li>
+                                        </ul>
+                                        
+                                        &lt;!&ndash;<form class="form-inline mt-2 mt-md-0 hidden-md-down">&ndash;&gt;
+                                            &lt;!&ndash;<input class="form-control mr-sm-2 search" type="text" placeholder="Search">&ndash;&gt;
+                                            &lt;!&ndash;</form>&ndash;&gt;
+                                            
+                                            <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row" *ngIf="(isLoggedIn|async)">
+                                                <li class="nav-item">
+                                                    &lt;!&ndash;<a class="nav-link" href="#">&ndash;&gt;
+                                                        &lt;!&ndash;<mat-icon>event</mat-icon>&ndash;&gt;
+                                                        &lt;!&ndash;</a>&ndash;&gt;
+                                                        <button mat-button [matMenuTriggerFor]="menu">Nov. Cycle
+                                                            <mat-icon>event</mat-icon>
+                                                        </button>
+                                                        <mat-menu #menu="matMenu">
+                                                            <button mat-menu-item>Item 1</button>
+                                                            <button mat-menu-item>Item 2</button>
+                                                        </mat-menu>
+                                                        <button mat-button [matMenuTriggerFor]="menu">
+                                                            <mat-icon>event</mat-icon>
+                                                        </button>
+                                                        
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">
+                                                            <mat-icon>home</mat-icon>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">
+                                                            <mat-icon>more</mat-icon>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                
+                                            </div>-->
+
+</nav>
+
+<!--<nav class="navbar navbar-default">-->
+<!--<div class="container-fluid">-->
+<!--&lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
+<!--<div class="navbar-header">-->
+<!--<a class="navbar-brand" [routerLink]="['']">IgniteManager</a>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
+<!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+<!--<ul class="nav navbar-nav">-->
+<!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['']">Home</a></li>-->
+<!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['dashboard']" *ngIf="(isLoggedIn|async)">Dashboard</a></li>-->
+<!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a-->
+<!--[routerLink]="['all-in-one']" *ngIf="!(isLoggedIn|async)">All In One</a></li>-->
+<!--<li routerLinkActive="active"><a [routerLink]="['/chat']" *ngIf="(isLoggedIn|async)">Chat</a></li>-->
+<!--</ul>-->
+<!--<ul class="nav navbar-nav navbar-right">-->
+<!--<li *ngIf="(isLoggedIn|async)" class="navbar-text">{{(currentUser()|async).email}}</li>-->
+<!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!(isLoggedIn|async)"><a-->
+<!--[routerLink]="['login']">Login</a></li>-->
+<!--<li *ngIf="(isLoggedIn|async)"><a (click)="logout()" href="#">Logout</a></li>-->
+<!--</ul>-->
+<!--</div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;-->
+<!--</div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--</nav>-->
